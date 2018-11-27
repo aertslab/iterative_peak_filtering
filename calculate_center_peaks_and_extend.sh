@@ -21,10 +21,10 @@ calculate_center_peaks_and_extend () {
         printf 'Arguments:\n';
         printf '           - input_peak_bed_file:\n';
         printf '               Input peak BED file.\n';
-        printf '               Use "-" or "stdout" if you want to use standard input.\n';
+        printf '               Use "-" or "stdin" if you want to use standard input.\n';
         printf '           - output_peak_bed_file:\n';
         printf '               Output peak BED file.\n';
-        printf '               Use "-" or "stdout" if you want to use standard input.\n';
+        printf '               Use "-" or "stdout" if you want to use standard output.\n';
         printf '           - chrom_sizes_file:\n';
         printf '               File with chromosome names in the first column and\n';
         printf '               chromosome size in the second.\n';
