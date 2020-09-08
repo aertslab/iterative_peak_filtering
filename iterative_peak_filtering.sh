@@ -90,7 +90,9 @@ iterative_peak_filtering () {
     fi
 
 
-    #   - Get first 5 columns of input peak BED file.
+    #   - Get chrom, start, end, peak name and peak score from input peak BED file:
+    #       - if MACS2 narrowpeak or broadpeak file, use "-log10(pvalue)" column (column 8) as peak scores,
+    #       - else use column 5 as peak scores.
     #   - Sort peaks by coordinates.
     #   - Merge overlapping peak regions:
     #       - Count number of peaks merged to one region0
@@ -107,7 +109,19 @@ iterative_peak_filtering () {
     #                overlap with this peak region and print this peak region. Repeat
     #                this process with the next most significant peak (if it was not
     #                removed already) until all peaks are processed.
-    cut -f 1,2,3,4,5 "${input_peak_bed_file}" \
+    gawk \
+        -F '\t' -v 'OFS=\t' '
+        {
+            if (NF == 10) {
+                # Assume input is a MACS2 narrowpeak or broadpeak file (use "-log10(pvalue)" column as peak scores).
+                print $1, $2 , $3, $4, $8;
+            } else {
+                # Get first 5 columns.
+                print $1, $2 , $3, $4, $5;
+            }
+        }
+        ' \
+        "${input_peak_bed_file}" \
       | bedtools sort \
             -g "${chrom_sizes_file}" \
             -i stdin \

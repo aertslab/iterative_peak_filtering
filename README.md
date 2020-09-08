@@ -47,7 +47,8 @@ Example:
      - *Extend peak summits*
      - *Remove peaks overlapping blacklisted regions*
      - *Iteratively filter out less significant peaks that overlap with a more significant one*
-   - Then combine final output file for all samples (iteratively filtered peaks output) and
+     - *Normalize peaks*
+   - Then combine final output file for all samples (normalized peaks output) and
      run *"Iteratively filter out less significant peaks that overlap with a more significant one"*
      step on the combined peaks of multiple samples.
 
@@ -191,5 +192,35 @@ Purpose:    Filter peaks iteratively:
               - Repeat this process for the next most significant
                 peak (that is not removed already) and so on until
                 there are no peaks to process anymore.
+
+```
+
+
+### 5. Normalize peaks
+
+Normalize MACS2 peak scores ("-log10(pvalue)") by creating a "score per million":
+  - Divide each individual peak score by the sum of all of the peak scores in the
+    given sample multiplied by 1 million.
+
+
+```bash
+$ ./normalize_macs2_peak_scores.sh
+
+Usage:     normalize_macs2_peak_scores \
+                 input_peak_bed_file \
+                 output_peak_bed_file
+
+Arguments:
+           - input_peak_bed_file:
+               Input peak BED file.
+               Use "-" or "stdin" if you want to use standard input.
+           - output_peak_bed_file:
+               Output peak BED file.
+               Use "-" or "stdout" if you want to use standard output.
+
+Purpose:   Normalize MACS2 peak scores ("-log10(pvalue)") by creating
+           a "score per million": divide each individual peak score
+           by the sum of all of the peak scores in the given sample
+           multiplied by 1 million.
 
 ```
