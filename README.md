@@ -76,14 +76,14 @@ MACS \
         --call-summits \
         --nolambda \
         --keep-dup 'all' \
-        ---p 0.01 \
+        -p 0.01 \
         -t "${treatment_bam_file}" \
         -n "${sample_name}"
 ```
 
 ### 2. Extend peak summits to X bp
 
-Calculate center of each peak region and extend X bp in both directions (not needed for BED files which contain summits instead of regions).
+Calculate center of each peak region and extend X bp in both directions.
 Peaks whose center is to close to the start or end of the chromosome are removed,
 so all extended peaks have the same size (= X bp * 2 + 1).
 
